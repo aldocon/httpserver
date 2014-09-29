@@ -10,7 +10,8 @@ namespace httpserver
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello http server");
+            HTTPEchoService1 HTTPServer1 = new HTTPEchoService1();
+            HTTPServer1.StartServer();
         }
     }
 }
