@@ -26,11 +26,14 @@ namespace httpserver
 
             string message = sr.ReadLine();
             string answer = "";
+            string rootcatalog = @"C:\Users\novak\Desktop\work";
 
             string[] words = message.Split(' ');
+            sw.Write(words[1]);
             foreach (string word in words)
             {
                 Console.WriteLine(word);
+                
             }
             
             answer = "<html><body>HTTP/1.0 200 OK</body></html>";
