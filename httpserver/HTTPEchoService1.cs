@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace httpserver
 {
-    class HTTPEchoService1
+    internal class HTTPEchoService1
     {
         public void StartServer()
         {
@@ -24,22 +24,21 @@ namespace httpserver
             StreamWriter sw = new StreamWriter(ns);
             sw.AutoFlush = true;
 
-            string message = "hello";
+            string message = sr.ReadLine();
             string answer = "";
-            while (message != null && message != "")
-            {
-                Console.WriteLine("client: " + message);
-                //answer = message.ToUpper();
-                //sw.WriteLine(answer);
-                //message = sr.ReadLine();
-                sw.WriteLine(message);
+            
 
-            }
+            Console.WriteLine("Client: " + message);
+            answer = "<html><body>HTTP/1.0 200 OK</body></html>";
+            sw.WriteLine(answer);
+            message = sr.ReadLine();
+
 
             ns.Close();
             connectionSocket.Close();
             serverSocket.Stop();
 
+            
 
 
         }
