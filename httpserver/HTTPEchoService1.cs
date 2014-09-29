@@ -26,21 +26,31 @@ namespace httpserver
 
             string message = sr.ReadLine();
             string answer = "";
-            
 
-            Console.WriteLine("Client: " + message);
+            string[] words = message.Split(' ');
+            foreach (string word in words)
+            {
+                Console.WriteLine(word);
+            }
+            
             answer = "<html><body>HTTP/1.0 200 OK</body></html>";
+
             sw.WriteLine(answer);
             message = sr.ReadLine();
 
-
-            ns.Close();
-            connectionSocket.Close();
-            serverSocket.Stop();
-
             
+            {
 
 
+
+                ns.Close();
+                connectionSocket.Close();
+                serverSocket.Stop();
+
+
+
+
+            }
         }
     }
 }
