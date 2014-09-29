@@ -24,23 +24,20 @@ namespace httpserver
             StreamWriter sw = new StreamWriter(ns);
             sw.AutoFlush = true;
 
-            string message = "hello";
+            string message = sr.ReadLine();
             string answer = "";
-            while (message != null && message != "")
-            {
-                Console.WriteLine("client: " + message);
-                //answer = message.ToUpper();
-                //sw.WriteLine(answer);
-                //message = sr.ReadLine();
-                sw.WriteLine(message);
-
-            }
+           
+            Console.WriteLine("Client: " + message);
+            answer = "Hello World!";
+            sw.WriteLine(answer);
+            message = sr.ReadLine();
+            
 
             ns.Close();
             connectionSocket.Close();
             serverSocket.Stop();
 
-
+           
 
         }
     }
