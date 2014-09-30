@@ -28,7 +28,7 @@ namespace httpserver
 
             string message = sr.ReadLine();
             string answer = "";
-            string rootcatalog = @"C:\Users\novak\Desktop\w3raw\httpserver";
+            
 
             string[] words = message.Split(' ');
             sw.Write(words[1]);
@@ -43,7 +43,7 @@ namespace httpserver
             sw.WriteLine(answer);
             message = sr.ReadLine();
 
-            FileStream fs = new FileStream(@"C:\temp\hej.txt",FileMode.Open,FileAccess.Read);
+            FileStream fs = new FileStream(RootCatalog + words[1],FileMode.Open,FileAccess.Read);
 
             fs.CopyTo(sw.BaseStream);
 
