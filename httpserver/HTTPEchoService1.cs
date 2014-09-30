@@ -12,8 +12,10 @@ namespace httpserver
 {
     internal class HTTPEchoService1
     {
+
        private static readonly string RootCatalog = "c:/temp"; 
        public void StartServer()
+
         {
             TcpListener serverSocket = new TcpListener(8888);
             serverSocket.Start();
@@ -37,18 +39,30 @@ namespace httpserver
                 Console.WriteLine(word);
                 
             }
+
             
             answer = "<html><body>HTTP/1.0 200 OK</body></html>";
 
             sw.WriteLine(answer);
             message = sr.ReadLine();
 
-            FileStream fs = new FileStream(RootCatalog + words[1],FileMode.Open,FileAccess.Read);
 
-            fs.CopyTo(sw.BaseStream);
+
+
+           if (words[1].Length > 1)
+           {
+               FileStream fs = new FileStream(RootCatalog + words[1], FileMode.Open, FileAccess.Read);
+           fs.CopyTo(sw.BaseStream);
 
            fs.Flush();
            fs .Close();
+           }
+           
+           
+           
+         
+
+            
            
             {
 
@@ -59,28 +73,10 @@ namespace httpserver
                 serverSocket.Stop();
 
 
-
-
             }
         }
     }
 }
 
-//string[] lines = { "HTTP/1.0 200 OK", 
-                        // "HTTP/1.0 200 OK" };
-            
-          //  Console.WriteLine("maybe this works?");
-          //  Console.WriteLine();
-          //  foreach (string line in lines)
-            //    Console.WriteLine(line);
 
-         //   Console.WriteLine();
-
-            
-          //  Console.Out.NewLine = "\r\n\r\n";
-          
-           // Console.WriteLine("I think it does");
-          //  Console.WriteLine();
-         //   foreach (string line in lines)
-// Console.WriteLine(line);
             
