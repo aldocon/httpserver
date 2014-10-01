@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace httpserver
@@ -15,6 +16,8 @@ namespace httpserver
 
        private static readonly string RootCatalog = "c:/temp"; 
        public void StartServer()
+
+       
 
         {
             TcpListener serverSocket = new TcpListener(8888);
