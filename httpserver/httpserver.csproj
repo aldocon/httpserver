@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Generator.cs" />
     <Compile Include="HTTPEchoService1.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="Program.cs" />
