@@ -48,55 +48,64 @@ namespace httpserver
 
             string message = sr.ReadLine();
             string answergood = "";
+            string answerbad = "";
+            answergood = "<html><body>HTTP/1.0 200 OK</body></html>";
 
+            answerbad = "<html><body>HTTP/1.0 400 Bad Request</body></html>";
 
             string[] words = message.Split(' ');
             foreach (string word in words)
             {
                 Console.WriteLine(word);
-
-
-
             }
-
-            answergood = "<html><body>HTTP/1.0 200 OK</body></html>";
-
-            sw.WriteLine(answergood);
             message = sr.ReadLine();
 
 
-            if (words[1].Length > 1)
+            if (words[0] == "GET" || words[0] == "HEAD" || words[0] == "POST")
             {
-                FileStream fs = new FileStream(RootCatalog + words[1], FileMode.Open, FileAccess.Read);
 
-                fs.CopyTo(sw.BaseStream);
-                fs.Flush();
-                fs.Close();
-                sSource = "Forspørgsel Sendt";
-                sLog = "Application";
-                sEvent = "Fil sendt";
-                EventLog.WriteEntry(sSource, sEvent);
-                EventLog.WriteEntry(sSource, sEvent,
+                string temp = RootCatalog + words[1];
+                FileInfo fi = new FileInfo(temp);
+                if (fi.Exists)
+                {
+                    FileStream fs = new FileStream(RootCatalog + words[1], FileMode.Open, FileAccess.Read);
+                    sw.WriteLine(answergood);
+                    fs.CopyTo(sw.BaseStream);
+                    fs.Flush();
+                    fs.Close();
+                    sSource = "Forspørgsel Sendt";
+                    sLog = "Application";
+                    sEvent = "Fil sendt";
+                    EventLog.WriteEntry(sSource, sEvent);
+                    EventLog.WriteEntry(sSource, sEvent,
                     EventLogEntryType.Warning, 601);
-            }
-
-            {
-                ns.Close();
-                connectionSocket.Close();
-                serverSocket.Stop();
-                sSource = "Server lukket";
-                sLog = "Application";
-                sEvent = "Server Stoppet";
-                EventLog.WriteEntry(sSource, sEvent);
-                EventLog.WriteEntry(sSource, sEvent,
-                    EventLogEntryType.Warning, 501);
-
+                }
+                else
+                {
+                    sw.WriteLine(answerbad);
+                }
 
             }
+
+
+
+
+
+            ns.Close();
+            connectionSocket.Close();
+            serverSocket.Stop();
+            sSource = "Server lukket";
+            sLog = "Application";
+            sEvent = "Server Stoppet";
+            EventLog.WriteEntry(sSource, sEvent);
+            EventLog.WriteEntry(sSource, sEvent,
+                EventLogEntryType.Warning, 501);
+
+
         }
-
-
     }
+
+
 }
 
 
