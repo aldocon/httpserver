@@ -47,46 +47,65 @@ namespace httpserver
             sw.AutoFlush = true;
 
             string message = sr.ReadLine();
-            string answergood = "";
+            string StatusLineGood = "";
             string answerbad = "";
-            answergood = "<html><body>HTTP/1.0 200 OK</body></html>";
+            string ContentTypeHeader = "Content-Type: application/octet-stream";
+            StatusLineGood = "HTTP/1.0 200 OK";
 
-            answerbad = "<html><body>HTTP/1.0 400 Bad Request</body></html>";
-
-            string[] words = message.Split(' ');
-            foreach (string word in words)
+            answerbad = "HTTP/1.0 400 Bad Request";
+            if (message == null)
             {
-                Console.WriteLine(word);
+                return;
             }
-            message = sr.ReadLine();
-
-
-            if (words[0] == "GET" || words[0] == "HEAD" || words[0] == "POST")
+            else
             {
+                string[] words = message.Split(' ');
+                foreach (string word in words)
+                {
+                    Console.WriteLine(word);
 
-                string temp = RootCatalog + words[1];
-                FileInfo fi = new FileInfo(temp);
-                if (fi.Exists)
-                {
-                    FileStream fs = new FileStream(RootCatalog + words[1], FileMode.Open, FileAccess.Read);
-                    sw.WriteLine(answergood);
-                    fs.CopyTo(sw.BaseStream);
-                    fs.Flush();
-                    fs.Close();
-                    sSource = "Forspørgsel Sendt";
-                    sLog = "Application";
-                    sEvent = "Fil sendt";
-                    EventLog.WriteEntry(sSource, sEvent);
-                    EventLog.WriteEntry(sSource, sEvent,
-                    EventLogEntryType.Warning, 601);
-                }
-                else
-                {
-                    sw.WriteLine(answerbad);
                 }
 
+                if (words[0] == "GET" || words[0] == "HEAD" || words[0] == "POST")
+                {
+
+                    string Filepath = RootCatalog + words[1];
+                    FileInfo fi = new FileInfo(Filepath);
+                    if (fi.Exists)
+                    {
+                        FileStream fs = new FileStream(Filepath, FileMode.Open, FileAccess.Read);
+                        sw.WriteLine(StatusLineGood);
+                        if (fi.Extension == ".html")
+                        {
+                            ContentTypeHeader = "Content-Type: text/html";
+                        }
+                        sw.WriteLine(ContentTypeHeader);
+                        sw.WriteLine();
+                        // Alt efter den tomme linje er body. 
+
+                        fs.CopyTo(sw.BaseStream);
+                        fs.Flush();
+                        fs.Close();
+                        sSource = "Forspørgsel Sendt";
+                        sLog = "Application";
+                        sEvent = "Fil sendt";
+                        EventLog.WriteEntry(sSource, sEvent);
+                        EventLog.WriteEntry(sSource, sEvent,
+                        EventLogEntryType.Warning, 601);
+                    }
+                    else
+                    {
+                        sw.WriteLine(StatusLineGood);
+                    }
+
+                }
             }
 
+            //string[] dots = message.split('.');
+            //foreach (string dot in dots)
+            //{
+            //    sw.writeline(dots[1]);
+            //}
 
 
 
@@ -107,6 +126,7 @@ namespace httpserver
 
 
 }
+
 
 
             
